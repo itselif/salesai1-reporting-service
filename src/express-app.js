@@ -99,11 +99,13 @@ const {
   reportRequestRouter,
   reportFileRouter,
   reportPolicyRouter,
+  reportingShareTokenRouter,
 } = require("restLayer");
 
 app.use("", reportRequestRouter);
 app.use("", reportFileRouter);
 app.use("", reportPolicyRouter);
+app.use("", reportingShareTokenRouter);
 
 // swagger
 

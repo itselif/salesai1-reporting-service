@@ -4,5 +4,6 @@ module.exports = (headers) => {
     reportRequestMcpRouter: require("./reportRequest")(headers),
     reportFileMcpRouter: require("./reportFile")(headers),
     reportPolicyMcpRouter: require("./reportPolicy")(headers),
+    reportingShareTokenMcpRouter: require("./reportingShareToken")(headers),
   };
 };

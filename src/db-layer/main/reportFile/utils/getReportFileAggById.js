@@ -1,7 +1,12 @@
 const { HttpServerError, NotFoundError } = require("common");
 const { hexaLogger } = require("common");
 
-const { ReportRequest, ReportFile, ReportPolicy } = require("models");
+const {
+  ReportRequest,
+  ReportFile,
+  ReportPolicy,
+  ReportingShareToken,
+} = require("models");
 const { Op } = require("sequelize");
 
 const getReportFileAggById = async (reportFileId) => {

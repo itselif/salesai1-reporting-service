@@ -337,6 +337,109 @@ This event announces the deletion of a `reportPolicy` data object, covering both
 }
 ```
 
+## DbEvent reportingShareToken-created
+
+**Event topic**: `salesai1-reporting-service-dbevent-reportingsharetoken-created`
+
+This event is triggered upon the creation of a `reportingShareToken` data object in the database. The event payload encompasses the newly created data, encapsulated within the root of the paylod.
+
+**Event payload**:
+
+```json
+{
+  "id": "ID",
+  "_owner": "ID",
+  "configName": "String",
+  "objectName": "String",
+  "objectId": "ID",
+  "ownerId": "ID",
+  "peopleOption": "String",
+  "tokenPermissions": null,
+  "allowedEmails": null,
+  "expireDate": "Date",
+  "storeId": "ID",
+  "isActive": true,
+  "recordVersion": "Integer",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+## DbEvent reportingShareToken-updated
+
+**Event topic**: `salesai1-reporting-service-dbevent-reportingsharetoken-updated`
+
+Activation of this event follows the update of a `reportingShareToken` data object. The payload contains the updated information under the `reportingShareToken` attribute, along with the original data prior to update, labeled as `old_reportingShareToken`.
+
+**Event payload**:
+
+```json
+{
+  "old_reportingShareToken": {
+    "id": "ID",
+    "_owner": "ID",
+    "configName": "String",
+    "objectName": "String",
+    "objectId": "ID",
+    "ownerId": "ID",
+    "peopleOption": "String",
+    "tokenPermissions": null,
+    "allowedEmails": null,
+    "expireDate": "Date",
+    "storeId": "ID",
+    "isActive": true,
+    "recordVersion": "Integer",
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  },
+  "reportingShareToken": {
+    "id": "ID",
+    "_owner": "ID",
+    "configName": "String",
+    "objectName": "String",
+    "objectId": "ID",
+    "ownerId": "ID",
+    "peopleOption": "String",
+    "tokenPermissions": null,
+    "allowedEmails": null,
+    "expireDate": "Date",
+    "storeId": "ID",
+    "isActive": true,
+    "recordVersion": "Integer",
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  }
+}
+```
+
+## DbEvent reportingShareToken-deleted
+
+**Event topic**: `salesai1-reporting-service-dbevent-reportingsharetoken-deleted`
+
+This event announces the deletion of a `reportingShareToken` data object, covering both hard deletions (permanent removal) and soft deletions (where the `isActive` attribute is set to false). Regardless of the deletion type, the event payload will present the data as it was immediately before deletion, highlighting an `isActive` status of false for soft deletions.
+
+**Event payload**:
+
+```json
+{
+  "id": "ID",
+  "_owner": "ID",
+  "configName": "String",
+  "objectName": "String",
+  "objectId": "ID",
+  "ownerId": "ID",
+  "peopleOption": "String",
+  "tokenPermissions": null,
+  "allowedEmails": null,
+  "expireDate": "Date",
+  "storeId": "ID",
+  "isActive": false,
+  "recordVersion": "Integer",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
 # ElasticSearch Index Events
 
 Within the `Reporting` service, most data objects are mirrored in ElasticSearch indices, ensuring these indices remain syncronized with their database counterparts through creation, updates, and deletions. These indices serve dual purposes: they act as a data source for external services and furnish aggregated data tailored to enhance frontend user experiences. Consequently, an ElasticSearch index might encapsulate data in its original form or aggregate additional information from other data objects.
@@ -1145,6 +1248,369 @@ The following JSON included in the payload illustrates the fullest representatio
 ## Index Event reportpolicy-extended
 
 **Event topic**: `elastic-index-salesai_reportpolicy-extended`
+
+**Event payload**:
+
+```js
+{
+  id: id,
+  extends: {
+    [extendName]: "Object",
+    [extendName + "_count"]: "Number",
+  },
+}
+```
+
+# Route Events
+
+Route events are emitted following the successful execution of a route. While most routes perform CRUD (Create, Read, Update, Delete) operations on data objects, resulting in route events that closely resemble database events, there are distinctions worth noting. A single route execution might trigger multiple CRUD actions and ElasticSearch indexing operations. However, for those primarily concerned with the overarching business logic and its outcomes, listening to the consolidated route event, published once at the conclusion of the route's execution, is more pertinent.
+
+Moreover, routes often deliver aggregated data beyond the primary database object, catering to specific client needs. For instance, creating a data object via a route might not only return the entity's data but also route-specific metrics, such as the executing user's permissions related to the entity. Alternatively, a route might automatically generate default child entities following the creation of a parent object. Consequently, the route event encapsulates a unified dataset encompassing both the parent and its children, in contrast to individual events triggered for each entity created. Therefore, subscribing to route events can offer a richer, more contextually relevant set of information aligned with business logic.
+
+The payload of a route event mirrors the REST response JSON of the route, providing a direct and comprehensive reflection of the data and metadata communicated to the client. This ensures that subscribers to route events receive a payload that encapsulates both the primary data involved and any additional information deemed significant at the business level, facilitating a deeper understanding and integration of the service's functional outcomes.
+
+## Route Event reportrequest-created
+
+**Event topic** : `salesai1-reporting-service-reportrequest-created`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportRequest` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportRequest`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportRequest",
+  "action": "create",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportRequest": { "id": "ID", "isActive": true }
+}
+```
+
+## Route Event reportrequest-updated
+
+**Event topic** : `salesai1-reporting-service-reportrequest-updated`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportRequest` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportRequest`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportRequest",
+  "action": "update",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportRequest": { "id": "ID", "isActive": true }
+}
+```
+
+## Route Event reportrequest-deleted
+
+**Event topic** : `salesai1-reporting-service-reportrequest-deleted`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportRequest` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportRequest`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportRequest",
+  "action": "delete",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportRequest": { "id": "ID", "isActive": false }
+}
+```
+
+## Route Event reportfile-created
+
+**Event topic** : `salesai1-reporting-service-reportfile-created`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportFile` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportFile`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportFile",
+  "action": "create",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportFile": { "id": "ID", "isActive": true }
+}
+```
+
+## Route Event reportfile-updated
+
+**Event topic** : `salesai1-reporting-service-reportfile-updated`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportFile` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportFile`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportFile",
+  "action": "update",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportFile": { "id": "ID", "isActive": true }
+}
+```
+
+## Route Event reportfile-deleted
+
+**Event topic** : `salesai1-reporting-service-reportfile-deleted`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportFile` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportFile`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportFile",
+  "action": "delete",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportFile": { "id": "ID", "isActive": false }
+}
+```
+
+## Route Event reportpolicy-created
+
+**Event topic** : `salesai1-reporting-service-reportpolicy-created`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportPolicy` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportPolicy`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportPolicy",
+  "action": "create",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportPolicy": { "id": "ID", "isActive": true }
+}
+```
+
+## Route Event reportpolicy-updated
+
+**Event topic** : `salesai1-reporting-service-reportpolicy-updated`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportPolicy` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportPolicy`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportPolicy",
+  "action": "update",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportPolicy": { "id": "ID", "isActive": true }
+}
+```
+
+## Route Event reportpolicy-deleted
+
+**Event topic** : `salesai1-reporting-service-reportpolicy-deleted`
+
+**Event payload**:
+
+The event payload, mirroring the REST API response, is structured as an encapsulated JSON. It includes metadata related to the API as well as the `reportPolicy` data object itself.
+
+The following JSON included in the payload illustrates the fullest representation of the **`reportPolicy`** object. Note, however, that certain properties might be excluded in accordance with the object's inherent logic.
+
+```json
+{
+  "status": "OK",
+  "statusCode": "200",
+  "elapsedMs": 126,
+  "ssoTime": 120,
+  "source": "db",
+  "cacheKey": "hexCode",
+  "userId": "ID",
+  "sessionId": "ID",
+  "requestId": "ID",
+  "dataName": "reportPolicy",
+  "action": "delete",
+  "appVersion": "Version",
+  "rowCount": 1,
+  "reportPolicy": { "id": "ID", "isActive": false }
+}
+```
+
+## Index Event reportingsharetoken-created
+
+**Event topic**: `elastic-index-salesai_reportingsharetoken-created`
+
+**Event payload**:
+
+```json
+{
+  "id": "ID",
+  "_owner": "ID",
+  "configName": "String",
+  "objectName": "String",
+  "objectId": "ID",
+  "ownerId": "ID",
+  "peopleOption": "String",
+  "tokenPermissions": null,
+  "allowedEmails": null,
+  "expireDate": "Date",
+  "storeId": "ID",
+  "isActive": true,
+  "recordVersion": "Integer",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+## Index Event reportingsharetoken-updated
+
+**Event topic**: `elastic-index-salesai_reportingsharetoken-created`
+
+**Event payload**:
+
+```json
+{
+  "id": "ID",
+  "_owner": "ID",
+  "configName": "String",
+  "objectName": "String",
+  "objectId": "ID",
+  "ownerId": "ID",
+  "peopleOption": "String",
+  "tokenPermissions": null,
+  "allowedEmails": null,
+  "expireDate": "Date",
+  "storeId": "ID",
+  "isActive": true,
+  "recordVersion": "Integer",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+## Index Event reportingsharetoken-deleted
+
+**Event topic**: `elastic-index-salesai_reportingsharetoken-deleted`
+
+**Event payload**:
+
+```json
+{
+  "id": "ID",
+  "_owner": "ID",
+  "configName": "String",
+  "objectName": "String",
+  "objectId": "ID",
+  "ownerId": "ID",
+  "peopleOption": "String",
+  "tokenPermissions": null,
+  "allowedEmails": null,
+  "expireDate": "Date",
+  "storeId": "ID",
+  "isActive": true,
+  "recordVersion": "Integer",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+## Index Event reportingsharetoken-extended
+
+**Event topic**: `elastic-index-salesai_reportingsharetoken-extended`
 
 **Event payload**:
 

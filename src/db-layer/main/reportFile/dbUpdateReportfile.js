@@ -6,7 +6,12 @@ const {
   NotFoundError,
 } = require("common");
 
-const { ReportRequest, ReportFile, ReportPolicy } = require("models");
+const {
+  ReportRequest,
+  ReportFile,
+  ReportPolicy,
+  ReportingShareToken,
+} = require("models");
 const { Op } = require("sequelize");
 const { sequelize } = require("common");
 

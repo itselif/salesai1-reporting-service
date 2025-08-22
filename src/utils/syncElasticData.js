@@ -7,6 +7,10 @@ const {
   getReportPolicyById,
   getIdListOfReportPolicyByField,
 } = require("dbLayer");
+const {
+  getReportingShareTokenById,
+  getIdListOfReportingShareTokenByField,
+} = require("dbLayer");
 const path = require("path");
 const fs = require("fs");
 const { ElasticIndexer } = require("serviceCommon");
@@ -78,6 +82,29 @@ const indexReportPolicyData = async () => {
   return total;
 };
 
+const indexReportingShareTokenData = async () => {
+  const reportingShareTokenIndexer = new ElasticIndexer("reportingShareToken", {
+    isSilent: true,
+  });
+  console.log("Starting to update indexes for ReportingShareToken");
+
+  const idList =
+    (await getIdListOfReportingShareTokenByField("isActive", true)) ?? [];
+  const chunkSize = 500;
+  let total = 0;
+  for (let i = 0; i < idList.length; i += chunkSize) {
+    const chunk = idList.slice(i, i + chunkSize);
+    const dataList = await getReportingShareTokenById(chunk);
+    if (dataList.length) {
+      await reportingShareTokenIndexer.indexBulkData(dataList);
+      await reportingShareTokenIndexer.deleteRedisCache();
+    }
+    total += dataList.length;
+  }
+
+  return total;
+};
+
 const syncElasticIndexData = async () => {
   const startTime = new Date();
   console.log("syncElasticIndexData started", startTime);
@@ -117,6 +144,19 @@ const syncElasticIndexData = async () => {
   } catch (err) {
     console.log(
       "Elastic Index Error When Syncing ReportPolicy data",
+      err.toString(),
+    );
+  }
+
+  try {
+    const dataCount = await indexReportingShareTokenData();
+    console.log(
+      "ReportingShareToken agregated data is indexed, total reportingShareTokens:",
+      dataCount,
+    );
+  } catch (err) {
+    console.log(
+      "Elastic Index Error When Syncing ReportingShareToken data",
       err.toString(),
     );
   }

@@ -18,4 +18,5 @@ module.exports = {
   UpdateReportPolicyManager: require("./reportPolicy/update-reportpolicy"),
   DeleteReportPolicyManager: require("./reportPolicy/delete-reportpolicy"),
   ListReportPoliciesManager: require("./reportPolicy/list-reportpolicies"),
+  // ReportingShareToken Db Object
 };

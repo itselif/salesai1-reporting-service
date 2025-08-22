@@ -48,6 +48,14 @@ class SalesaiSession extends HexaAuth {
 
     return store.id;
   }
+
+  userHasRole(roleName) {
+    const userRoleInSession = this.session?.roleId;
+    if (!userRoleInSession) return false;
+    return Array.isArray(userRoleInSession)
+      ? userRoleInSession.includes(roleName)
+      : userRoleInSession == roleName;
+  }
 }
 
 module.exports = SalesaiSession;

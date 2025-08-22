@@ -59,4 +59,26 @@ module.exports = {
   updateReportPolicyByQuery: mainFunctions.updateReportPolicyByQuery,
   deleteReportPolicyById: mainFunctions.deleteReportPolicyById,
   deleteReportPolicyByQuery: mainFunctions.deleteReportPolicyByQuery,
+
+  // ReportingShareToken Db Object
+  createReportingShareToken: mainFunctions.createReportingShareToken,
+  getIdListOfReportingShareTokenByField:
+    mainFunctions.getIdListOfReportingShareTokenByField,
+  getReportingShareTokenById: mainFunctions.getReportingShareTokenById,
+  getReportingShareTokenAggById: mainFunctions.getReportingShareTokenAggById,
+  getReportingShareTokenListByQuery:
+    mainFunctions.getReportingShareTokenListByQuery,
+  getReportingShareTokenStatsByQuery:
+    mainFunctions.getReportingShareTokenStatsByQuery,
+  getReportingShareTokenByQuery: mainFunctions.getReportingShareTokenByQuery,
+  updateReportingShareTokenById: mainFunctions.updateReportingShareTokenById,
+  updateReportingShareTokenByIdList:
+    mainFunctions.updateReportingShareTokenByIdList,
+  updateReportingShareTokenByQuery:
+    mainFunctions.updateReportingShareTokenByQuery,
+  deleteReportingShareTokenById: mainFunctions.deleteReportingShareTokenById,
+  deleteReportingShareTokenByQuery:
+    mainFunctions.deleteReportingShareTokenByQuery,
+  getReportingShareTokenByStoreId:
+    mainFunctions.getReportingShareTokenByStoreId,
 };

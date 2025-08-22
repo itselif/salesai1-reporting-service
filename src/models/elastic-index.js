@@ -49,6 +49,23 @@ const reportPolicyMapping = {
   createdAt: { type: "date" },
   updatedAt: { type: "date" },
 };
+const reportingShareTokenMapping = {
+  id: { type: "keyword" },
+  _owner: { type: "keyword" },
+  configName: { type: "keyword", index: true },
+  objectName: { type: "keyword", index: true },
+  objectId: { type: "keyword", index: true },
+  ownerId: { type: "keyword", index: true },
+  peopleOption: { type: "keyword", index: true },
+  tokenPermissions: { type: "keyword", index: true },
+  allowedEmails: { type: "keyword", index: true },
+  expireDate: { type: "date", index: true },
+  storeId: { type: "keyword", index: true },
+  isActive: { type: "boolean" },
+  recordVersion: { type: "integer" },
+  createdAt: { type: "date" },
+  updatedAt: { type: "date" },
+};
 
 const updateElasticIndexMappings = async () => {
   try {
@@ -60,6 +77,13 @@ const updateElasticIndexMappings = async () => {
     await new ElasticIndexer("reportFile").updateMapping(reportFileMapping);
     ElasticIndexer.addMapping("reportPolicy", reportPolicyMapping);
     await new ElasticIndexer("reportPolicy").updateMapping(reportPolicyMapping);
+    ElasticIndexer.addMapping(
+      "reportingShareToken",
+      reportingShareTokenMapping,
+    );
+    await new ElasticIndexer("reportingShareToken").updateMapping(
+      reportingShareTokenMapping,
+    );
   } catch (err) {
     hexaLogger.insertError(
       "UpdateElasticIndexMappingsError",

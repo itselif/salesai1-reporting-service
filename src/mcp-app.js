@@ -83,6 +83,7 @@ app.post("/mcp", async (req, res) => {
       reportRequestMcpRouter,
       reportFileMcpRouter,
       reportPolicyMcpRouter,
+      reportingShareTokenMcpRouter,
       getSessionRouter,
     } = require("mcpLayer")(initialHeaders);
 
@@ -105,6 +106,14 @@ app.post("/mcp", async (req, res) => {
       ),
     );
     reportPolicyMcpRouter.forEach((mcpTool) =>
+      server.tool(
+        mcpTool.name,
+        mcpTool.description,
+        mcpTool.parameters,
+        mcpTool.controller,
+      ),
+    );
+    reportingShareTokenMcpRouter.forEach((mcpTool) =>
       server.tool(
         mcpTool.name,
         mcpTool.description,

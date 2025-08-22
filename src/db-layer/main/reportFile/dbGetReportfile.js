@@ -9,7 +9,12 @@ const {
 } = require("common");
 const { hexaLogger } = require("common");
 
-const { ReportRequest, ReportFile, ReportPolicy } = require("models");
+const {
+  ReportRequest,
+  ReportFile,
+  ReportPolicy,
+  ReportingShareToken,
+} = require("models");
 
 const { DBGetSequelizeCommand } = require("dbCommand");
 

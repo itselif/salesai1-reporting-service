@@ -4,4 +4,5 @@ module.exports = {
   // ReportRequest Db Object
   // ReportFile Db Object
   // ReportPolicy Db Object
+  // ReportingShareToken Db Object
 };

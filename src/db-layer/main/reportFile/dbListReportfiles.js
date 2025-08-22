@@ -1,7 +1,12 @@
 const { DBGetListSequelizeCommand } = require("dbCommand");
 const { sequelize, hexaLogger } = require("common");
 const { Op } = require("sequelize");
-const { ReportRequest, ReportFile, ReportPolicy } = require("models");
+const {
+  ReportRequest,
+  ReportFile,
+  ReportPolicy,
+  ReportingShareToken,
+} = require("models");
 
 class DbListReportfilesCommand extends DBGetListSequelizeCommand {
   constructor(input) {

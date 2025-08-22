@@ -7,6 +7,7 @@ const { hexaLogger } = require("common");
 const ReportRequest = require("./reportRequest");
 const ReportFile = require("./reportFile");
 const ReportPolicy = require("./reportPolicy");
+const ReportingShareToken = require("./reportingShareToken");
 
 ReportRequest.prototype.getData = function () {
   const data = this.dataValues;
@@ -152,9 +153,26 @@ ReportPolicy.prototype.getData = function () {
   return data;
 };
 
+ReportingShareToken.prototype.getData = function () {
+  const data = this.dataValues;
+
+  for (const key of Object.keys(data)) {
+    if (key.startsWith("json_")) {
+      data[key] = JSON.parse(data[key]);
+      const newKey = key.slice(5);
+      data[newKey] = data[key];
+      delete data[key];
+    }
+  }
+
+  data._owner = data.ownerId ?? undefined;
+  return data;
+};
+
 module.exports = {
   ReportRequest,
   ReportFile,
   ReportPolicy,
+  ReportingShareToken,
   updateElasticIndexMappings,
 };

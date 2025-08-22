@@ -1,0 +1,15 @@
+module.exports = {
+  createReportingShareToken: require("./createReportingShareToken"),
+  getIdListOfReportingShareTokenByField: require("./getIdListOfReportingShareTokenByField"),
+  getReportingShareTokenById: require("./getReportingShareTokenById"),
+  getReportingShareTokenAggById: require("./getReportingShareTokenAggById"),
+  getReportingShareTokenListByQuery: require("./getReportingShareTokenListByQuery"),
+  getReportingShareTokenStatsByQuery: require("./getReportingShareTokenStatsByQuery"),
+  getReportingShareTokenByQuery: require("./getReportingShareTokenByQuery"),
+  updateReportingShareTokenById: require("./updateReportingShareTokenById"),
+  updateReportingShareTokenByIdList: require("./updateReportingShareTokenByIdList"),
+  updateReportingShareTokenByQuery: require("./updateReportingShareTokenByQuery"),
+  deleteReportingShareTokenById: require("./deleteReportingShareTokenById"),
+  deleteReportingShareTokenByQuery: require("./deleteReportingShareTokenByQuery"),
+  getReportingShareTokenByStoreId: require("./getReportingShareTokenByStoreId"),
+};

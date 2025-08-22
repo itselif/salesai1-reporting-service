@@ -1,6 +1,7 @@
 const reportRequestFunctions = require("./reportRequest");
 const reportFileFunctions = require("./reportFile");
 const reportPolicyFunctions = require("./reportPolicy");
+const reportingShareTokenFunctions = require("./reportingShareToken");
 
 module.exports = {
   // main Database
@@ -67,4 +68,32 @@ module.exports = {
   updateReportPolicyByQuery: reportPolicyFunctions.updateReportPolicyByQuery,
   deleteReportPolicyById: reportPolicyFunctions.deleteReportPolicyById,
   deleteReportPolicyByQuery: reportPolicyFunctions.deleteReportPolicyByQuery,
+
+  // ReportingShareToken Db Object
+  createReportingShareToken:
+    reportingShareTokenFunctions.createReportingShareToken,
+  getIdListOfReportingShareTokenByField:
+    reportingShareTokenFunctions.getIdListOfReportingShareTokenByField,
+  getReportingShareTokenById:
+    reportingShareTokenFunctions.getReportingShareTokenById,
+  getReportingShareTokenAggById:
+    reportingShareTokenFunctions.getReportingShareTokenAggById,
+  getReportingShareTokenListByQuery:
+    reportingShareTokenFunctions.getReportingShareTokenListByQuery,
+  getReportingShareTokenStatsByQuery:
+    reportingShareTokenFunctions.getReportingShareTokenStatsByQuery,
+  getReportingShareTokenByQuery:
+    reportingShareTokenFunctions.getReportingShareTokenByQuery,
+  updateReportingShareTokenById:
+    reportingShareTokenFunctions.updateReportingShareTokenById,
+  updateReportingShareTokenByIdList:
+    reportingShareTokenFunctions.updateReportingShareTokenByIdList,
+  updateReportingShareTokenByQuery:
+    reportingShareTokenFunctions.updateReportingShareTokenByQuery,
+  deleteReportingShareTokenById:
+    reportingShareTokenFunctions.deleteReportingShareTokenById,
+  deleteReportingShareTokenByQuery:
+    reportingShareTokenFunctions.deleteReportingShareTokenByQuery,
+  getReportingShareTokenByStoreId:
+    reportingShareTokenFunctions.getReportingShareTokenByStoreId,
 };

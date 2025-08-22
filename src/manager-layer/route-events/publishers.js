@@ -159,6 +159,8 @@ class ReportpolicyDeletedPublisher extends ServicePublisher {
   }
 }
 
+// ReportingShareToken Event Publisher Classes
+
 module.exports = {
   ReportrequestCreatedPublisher,
   ReportrequestUpdatedPublisher,

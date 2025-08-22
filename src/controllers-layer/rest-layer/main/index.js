@@ -3,4 +3,5 @@ module.exports = {
   reportRequestRouter: require("./reportRequest"),
   reportFileRouter: require("./reportFile"),
   reportPolicyRouter: require("./reportPolicy"),
+  reportingShareTokenRouter: require("./reportingShareToken"),
 };

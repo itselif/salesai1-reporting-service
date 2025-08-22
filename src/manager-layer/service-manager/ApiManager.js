@@ -410,8 +410,8 @@ class ApiManager {
     return hashString(strValue);
   }
 
-  hashCompare(hash1, hash2) {
-    return hashCompare(hash1, hash2);
+  hashCompare(strValue, hasValue) {
+    return hashCompare(strValue, hashValue);
   }
 }
 
